@@ -45,6 +45,10 @@ public class ApiController {
         return retrofit.create(MoviesApi.class);
     }
 
+    public  MoviesApi getMovieApiByID(){
+        return retrofit.create(MoviesApi.class);
+    }
+
 
 //    public void searchMovies(OnSearchApiListener listener){
 //

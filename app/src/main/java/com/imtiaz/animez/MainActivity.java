@@ -24,7 +24,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
-    TextView btn;
+    Button btn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,7 +35,8 @@ public class MainActivity extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                GetRetrofitResponse();
+                //GetRetrofitResponse();
+                GetRetrofitResponseAccordingToID();
             }
         });
     }
@@ -106,6 +107,35 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    private void GetRetrofitResponseAccordingToID(){
 
+        MoviesApi movieApiByID = ApiController.getInstance().getMovieApiByID();
+
+        Call<PopularMovie> responseCall = movieApiByID.getMovie(550,ApiEndpoint.API_KEY);
+
+        responseCall.enqueue(new Callback<PopularMovie>() {
+            @Override
+            public void onResponse(Call<PopularMovie> call, Response<PopularMovie> response) {
+                if (response.code() == 200) {
+                    PopularMovie movieID = response.body();
+                    Log.v("Tag", "the response: " + movieID.getTitle());
+
+                } else {
+                    try {
+                        Log.v("Tag", "the Error" + response.errorBody().string());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PopularMovie> call, Throwable t) {
+
+            }
+        });
+
+
+    }
 
 }
